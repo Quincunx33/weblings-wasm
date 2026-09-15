@@ -64,21 +64,29 @@ cd app
 trunk build --release
 ```
 
-The production site is generated in `app/dist/`. The pre-build and post-build hooks prepare and clean the compiler assets automatically.
+The production files are copied to the repository root for simple static hosting. The root `index.html` is the deploy entry point; the root `runner.js`, `worker.js`, `rustc/`, `rustlings/`, `vendor/`, and `*.wasm` files are the browser runtime.
 
 ### Run locally
 
 ```bash
-cd app
-trunk serve --release
+python3 -m http.server 8090
 ```
 
-Then open the local URL printed by Trunk. The default development port is `8090`.
+Open `http://localhost:8090/`. A static server is required because browsers do not allow the module, worker, and WASM assets to run correctly from `file://` URLs.
+
+### Host it
+
+The repository root is already deploy-ready. It can be hosted on GitHub Pages, Cloudflare Pages, Netlify, Vercel static hosting, or any Nginx/Apache static server. GitHub Pages deployment is configured in `.github/workflows/deploy-pages.yml` and runs automatically on pushes to `main`.
 
 ## Project layout
 
 | Path | Purpose |
 | --- | --- |
+| `index.html` | Root hosting entry point |
+| `*.wasm` | Browser UI WebAssembly module |
+| `rustc/` | Browser Rust compiler and sysroot bundle |
+| `runner.js` / `worker.js` | Runtime preload, worker pool, and execution |
+| `rustlings/` / `vendor/` | Exercises and browser WASI shim |
 | `app/src/` | Leptos UI, editor, diagnostics, and Rustlings views |
 | `app/public/runner.js` | Browser-side compiler preload and worker pool |
 | `app/public/worker.js` | Compilation and program execution worker |
