@@ -1,0 +1,56 @@
+name: Rust and WebAssembly CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Check Rust and WASM
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: wasm32-unknown-unknown
+
+      - name: Cache Rust build
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            .
+
+      - name: Check build helper
+        run: cargo check --manifest-path xtask/Cargo.toml --release
+
+      - name: Check browser WASM app
+        run: cargo check --manifest-path app/Cargo.toml --target wasm32-unknown-unknown
+
+      - name: Validate hosted runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -s index.html
+          test -s runner.js
+          test -s worker.js
+          test -s weblings-ui-77ee493823b4aa23_bg.wasm
+          test -s rustc/rustc.wasm
+          test -s rustc/sysroot-wasip1.bundle
+          test -s rustlings/exercises.json
+          test "$(od -An -tx1 -N4 weblings-ui-77ee493823b4aa23_bg.wasm | tr -d ' \n')" = "0061736d"
+          grep -q "./runner.js" index.html
+          grep -q "./weblings-ui-77ee493823b4aa23.js" index.html
+          echo "Root static runtime is ready."
