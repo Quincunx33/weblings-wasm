@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="560" viewBox="0 0 1200 560" role="img" aria-labelledby="title desc">
+  <title id="title">Weblings WASM architecture</title>
+  <desc id="desc">A diagram showing Rust source compiled by rustc.wasm, Cranelift, Waffle, and a browser Web Worker with a WASI shim.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#101827"/><stop offset="1" stop-color="#1d2942"/></linearGradient>
+    <linearGradient id="rust" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f97316"/><stop offset="1" stop-color="#c2410c"/></linearGradient>
+    <linearGradient id="wasm" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#4f46e5"/></linearGradient>
+    <linearGradient id="browser" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0ea5e9"/><stop offset="1" stop-color="#0369a1"/></linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="8" stdDeviation="8" flood-opacity=".3"/></filter>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L9,3 L0,6 Z" fill="#93c5fd"/></marker>
+    <style>text{font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.label{fill:#e5e7eb;font-size:16px}.small{fill:#bfdbfe;font-size:14px}.box{stroke:#ffffff22;stroke-width:1.5}</style>
+  </defs>
+  <rect width="1200" height="560" rx="28" fill="url(#bg)"/>
+  <text x="60" y="72" fill="#fff" font-size="32" font-weight="700">Weblings · browser-first Rust compilation</text>
+  <text x="60" y="105" fill="#94a3b8" font-size="17">From Rust source to executable WebAssembly — without a remote compiler round trip</text>
+
+  <g filter="url(#shadow)">
+    <rect class="box" x="60" y="180" width="190" height="110" rx="18" fill="url(#rust)"/>
+    <text x="155" y="225" text-anchor="middle" fill="#fff" font-size="21" font-weight="700">Rust source</text>
+    <text x="155" y="254" text-anchor="middle" class="small">editor + exercises</text>
+
+    <rect class="box" x="315" y="180" width="190" height="110" rx="18" fill="url(#wasm)"/>
+    <text x="410" y="225" text-anchor="middle" fill="#fff" font-size="21" font-weight="700">rustc.wasm</text>
+    <text x="410" y="254" text-anchor="middle" class="small">compiler in browser</text>
+
+    <rect class="box" x="570" y="180" width="190" height="110" rx="18" fill="#334155"/>
+    <text x="665" y="225" text-anchor="middle" fill="#fff" font-size="21" font-weight="700">Cranelift</text>
+    <text x="665" y="254" text-anchor="middle" class="small">compiler backend</text>
+
+    <rect class="box" x="825" y="180" width="190" height="110" rx="18" fill="#334155"/>
+    <text x="920" y="225" text-anchor="middle" fill="#fff" font-size="21" font-weight="700">Waffle</text>
+    <text x="920" y="254" text-anchor="middle" class="small">WASM IR + linker</text>
+
+    <rect class="box" x="315" y="390" width="190" height="100" rx="18" fill="url(#browser)"/>
+    <text x="410" y="432" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">Web Worker</text>
+    <text x="410" y="460" text-anchor="middle" class="small">non-blocking jobs</text>
+
+    <rect class="box" x="570" y="390" width="190" height="100" rx="18" fill="#075985"/>
+    <text x="665" y="432" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">Browser WASI</text>
+    <text x="665" y="460" text-anchor="middle" class="small">runtime shim</text>
+
+    <rect class="box" x="825" y="390" width="190" height="100" rx="18" fill="#0f766e"/>
+    <text x="920" y="432" text-anchor="middle" fill="#fff" font-size="20" font-weight="700">Output</text>
+    <text x="920" y="460" text-anchor="middle" class="small">results + diagnostics</text>
+  </g>
+
+  <g stroke="#93c5fd" stroke-width="3" fill="none" marker-end="url(#arrow)">
+    <path d="M250 235 H305"/><path d="M505 235 H560"/><path d="M760 235 H815"/>
+    <path d="M920 290 V330 H410 V380"/><path d="M505 440 H560"/><path d="M760 440 H815"/>
+  </g>
+  <text x="600" y="540" text-anchor="middle" fill="#64748b" font-size="14">Static deployment · Rust + Leptos + eframe/egui + WebAssembly</text>
+</svg>
